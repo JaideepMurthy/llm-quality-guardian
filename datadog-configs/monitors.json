@@ -1,0 +1,90 @@
+{
+  "monitors": [
+    {
+      "id": 247467395,
+      "name": "Jaideep Dec 30 2025 13:23",
+      "type": "query alert",
+      "description": "System load detection monitor for LLM Quality Guardian",
+      "query": "avg(last_5m):avg:system.load.1{*} > 75",
+      "message": "@incident-LLM Quality Guardian System Load Alert",
+      "tags": [
+        "llm-quality-guardian",
+        "system-health",
+        "datadog-challenge"
+      ],
+      "options": {
+        "thresholds": {
+          "critical": 75
+        },
+        "notify_audit": false,
+        "on_missing_data": "default",
+        "include_tags": false,
+        "new_host_delay": 300
+      },
+      "priority": null,
+      "draft_status": "draft",
+      "created_at": "2025-12-30T13:23:00Z"
+    },
+    {
+      "id": 247467447,
+      "name": "CPU usage is high for host {{host.name}}",
+      "type": "query alert",
+      "description": "CPU usage threshold alert for LLM Quality Guardian application hosts",
+      "query": "avg(last_5m):100 - avg:system.cpu.idle{*} by {host} > 90",
+      "message": "### Alert | High CPU usage detected on host {{host.name}}\n\nThis alert indicates that one or more hosts are experiencing high CPU utilization.",
+      "tags": [
+        "integration:host",
+        "llm-quality-guardian",
+        "infrastructure"
+      ],
+      "options": {
+        "thresholds": {
+          "critical": 90
+        },
+        "notify_audit": false,
+        "include_tags": false,
+        "new_group_delay": 300,
+        "on_missing_data": "default"
+      },
+      "priority": null,
+      "draft_status": "published",
+      "created_at": "2025-12-30T13:24:00Z"
+    },
+    {
+      "id": 247467507,
+      "name": "Disk usage is high for host {{host.name}} on device {{device.name}}",
+      "type": "query alert",
+      "description": "Forecast-based disk usage alert for LLM Quality Guardian infrastructure",
+      "query": "max(next_3d):forecast((.1 - avg:system.disk.free{*} by {host,device} / avg:system.disk.total{*} by {host,device} ) * 100, 'linear', 1, interval='60m', seasonality='weekly') >= 99",
+      "message": "### Alert | Low disk capacity detected on host {{host.name}} on device {{device.name}}",
+      "tags": [
+        "integration:host",
+        "llm-quality-guardian",
+        "infrastructure"
+      ],
+      "options": {
+        "thresholds": {
+          "critical": 99,
+          "critical_recovery": 89
+        },
+        "notify_audit": false,
+        "require_full_window": false,
+        "renotify_interval": 0,
+        "include_tags": false,
+        "new_group_delay": 300,
+        "on_missing_data": "default"
+      },
+      "priority": null,
+      "draft_status": "published",
+      "created_at": "2025-12-30T13:25:00Z"
+    }
+  ],
+  "metadata": {
+    "organization": "jaideep-murthy-llm-guardian",
+    "project": "LLM Quality Guardian",
+    "hackathon": "AI Partner Catalyst - Datadog Challenge",
+    "total_monitors": 3,
+    "exported_date": "2025-12-30",
+    "instructions": "Import these monitor configurations into your Datadog account using the API or UI. See README.md for detailed instructions."
+  }
+}
